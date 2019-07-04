@@ -1,5 +1,7 @@
 import { Component, ViewChild, ViewEncapsulation, OnInit, AfterViewInit } from '@angular/core';
 import { QrScannerComponent } from 'angular2-qrscanner';
+import { DataService } from '../data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-qr-code-reader',
@@ -9,7 +11,7 @@ import { QrScannerComponent } from 'angular2-qrscanner';
 })
 export class QrCodeReaderComponent implements AfterViewInit  {
 
-  constructor() { }
+  constructor(private dataservice: DataService, private router: Router) { }
   @ViewChild(QrScannerComponent,{static: true })
   qrScannerComponent: QrScannerComponent ;
  
@@ -40,6 +42,9 @@ export class QrCodeReaderComponent implements AfterViewInit  {
  
         this.qrScannerComponent.capturedQr.subscribe(result => {
             console.log(result);
+            this.dataservice.setResult(result);
+            this.router.navigateByUrl('result');
+
         });
     }
 
